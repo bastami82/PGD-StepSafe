@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import uk.appyapp.stepsafe.R
 import uk.appyapp.stepsafe.data.local.dao.CaregiverContactDao
+import uk.appyapp.stepsafe.data.local.dao.ExitEventDao
+import uk.appyapp.stepsafe.data.local.entities.ExitEvent
 import uk.appyapp.stepsafe.ui.AlertActivity
 import javax.inject.Inject
 
@@ -28,6 +30,9 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var caregiverContactDao: CaregiverContactDao
+
+    @Inject
+    lateinit var exitEventDao: ExitEventDao
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -45,7 +50,26 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             Log.d(TAG, "Geofence Exit Detected!")
             val location = geofencingEvent.triggeringLocation
-            
+
+            // Persist exit event to local DB for Appendix B evidence
+            scope.launch {
+                try {
+                    val lat = location?.latitude ?: 0.0
+                    val lng = location?.longitude ?: 0.0
+                    val event = ExitEvent(
+                        timestamp = System.currentTimeMillis(),
+                        latitude = lat,
+                        longitude = lng,
+                        eventType = "EXIT",
+                        note = "Geofence exit detected"
+                    )
+                    exitEventDao.insert(event)
+                    Log.d(TAG, "ExitEvent persisted: $event")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to persist ExitEvent: ${e.message}")
+                }
+            }
+
             showExitNotification(context)
             launchAlertActivity(context)
             sendEmergencySms(context, location)
@@ -66,9 +90,9 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
             val contact = caregiverContactDao.getCaregiverContact().first() ?: return@launch
             val lat = location?.latitude ?: 0.0
             val lng = location?.longitude ?: 0.0
-            
+
             val message = "StepSafe Alert: ${contact.name}, the user has left their safe zone. View location: https://www.google.com/maps/search/?api=1&query=$lat,$lng"
-            
+
             try {
                 val smsManager =
                     context.getSystemService(SmsManager::class.java)

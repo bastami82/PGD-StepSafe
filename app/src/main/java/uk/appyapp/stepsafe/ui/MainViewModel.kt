@@ -1,10 +1,8 @@
 package uk.appyapp.stepsafe.ui
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.location.Geocoder
-import android.os.Build
 import android.telephony.SmsManager
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,14 +11,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.appyapp.stepsafe.data.local.dao.CaregiverContactDao
+import uk.appyapp.stepsafe.data.local.dao.ExitEventDao
 import uk.appyapp.stepsafe.data.local.dao.HomeLocationDao
 import uk.appyapp.stepsafe.data.local.entities.CaregiverContact
+import uk.appyapp.stepsafe.data.local.entities.ExitEvent
 import uk.appyapp.stepsafe.data.local.entities.HomeLocation
 import uk.appyapp.stepsafe.data.repository.SettingsRepository
 import uk.appyapp.stepsafe.service.GeofencingService
@@ -32,20 +31,21 @@ class MainViewModel @Inject constructor(
     application: Application,
     private val homeLocationDao: HomeLocationDao,
     private val caregiverContactDao: CaregiverContactDao,
+    private val exitEventDao: ExitEventDao,
     private val settingsRepository: SettingsRepository
 ) : AndroidViewModel(application) {
 
-    val homeLocation: StateFlow<HomeLocation?> = homeLocationDao.getHomeLocation()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    private val _homeLocation = MutableStateFlow<HomeLocation?>(null)
+    val homeLocation: StateFlow<HomeLocation?> = _homeLocation
 
-    val caregiverContact: StateFlow<CaregiverContact?> = caregiverContactDao.getCaregiverContact()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-        
-    val safeZoneRadius: StateFlow<Double> = settingsRepository.safeZoneRadius
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 100.0)
+    private val _caregiverContact = MutableStateFlow<CaregiverContact?>(null)
+    val caregiverContact: StateFlow<CaregiverContact?> = _caregiverContact
 
-    val monitoringActive: StateFlow<Boolean> = settingsRepository.monitoringActive
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    private val _safeZoneRadius = MutableStateFlow<Double>(100.0)
+    val safeZoneRadius: StateFlow<Double> = _safeZoneRadius
+
+    private val _monitoringActive = MutableStateFlow<Boolean>(false)
+    val monitoringActive: StateFlow<Boolean> = _monitoringActive
 
     private val _isGeocoding = mutableStateOf(false)
     val isGeocoding: State<Boolean> = _isGeocoding
@@ -58,6 +58,32 @@ class MainViewModel @Inject constructor(
 
     private val _geofenceResult = mutableStateOf<String?>(null)
     val geofenceResult: State<String?> = _geofenceResult
+
+    init {
+        viewModelScope.launch {
+            homeLocationDao.getHomeLocation().collect { location ->
+                _homeLocation.value = location
+            }
+        }
+
+        viewModelScope.launch {
+            caregiverContactDao.getCaregiverContact().collect { contact ->
+                _caregiverContact.value = contact
+            }
+        }
+
+        viewModelScope.launch {
+            settingsRepository.safeZoneRadius.collect { radius ->
+                _safeZoneRadius.value = radius
+            }
+        }
+
+        viewModelScope.launch {
+            settingsRepository.monitoringActive.collect { active ->
+                _monitoringActive.value = active
+            }
+        }
+    }
 
     fun clearGeocodingError() {
         _geocodingError.value = null
@@ -111,7 +137,7 @@ class MainViewModel @Inject constructor(
             settingsRepository.updateMonitoringActive(false)
         }
     }
-    
+
     fun updateHomeLocation(latitude: Double, longitude: Double, address: String) {
         viewModelScope.launch {
             homeLocationDao.insertHomeLocation(HomeLocation(latitude = latitude, longitude = longitude, address = address))
@@ -120,11 +146,11 @@ class MainViewModel @Inject constructor(
 
     fun searchPostcode(postcode: String) {
         if (postcode.isBlank()) return
-        
+
         viewModelScope.launch {
             _isGeocoding.value = true
             _geocodingError.value = null
-            
+
             try {
                 val geocoder = Geocoder(getApplication(), Locale.getDefault())
                 val addresses = withContext(Dispatchers.IO) {
@@ -170,13 +196,13 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun updateCaregiverContact(name: String, phoneNumber: String) {
         viewModelScope.launch {
             caregiverContactDao.insertCaregiverContact(CaregiverContact(name = name, phoneNumber = phoneNumber))
         }
     }
-    
+
     fun updateSafeZoneRadius(radius: Double) {
         viewModelScope.launch {
             settingsRepository.updateSafeZoneRadius(radius)
@@ -187,9 +213,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val contact = caregiverContact.value ?: return@launch
             val location = homeLocation.value
-            
+
             val message = "StepSafe Alert: ${contact.name}, the user has left their safe zone. View location: https://www.google.com/maps/search/?api=1&query=${location?.latitude ?: 0.0},${location?.longitude ?: 0.0}"
-            
+
             try {
                 val smsManager =
                     getApplication<Application>().getSystemService(SmsManager::class.java)
@@ -200,8 +226,23 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveTestData() {
-        homeLocationDao.insertHomeLocation(HomeLocation(latitude = 51.5074, longitude = -0.1278, address = "London Eye"))
-        caregiverContactDao.insertCaregiverContact(CaregiverContact(name = "Caregiver", phoneNumber = "5550101"))
+    fun insertSampleExitEvent() {
+        viewModelScope.launch {
+            try {
+                val loc = homeLocation.value
+                val lat = loc?.latitude ?: 51.5074
+                val lng = loc?.longitude ?: -0.1278
+                val event = ExitEvent(
+                    timestamp = System.currentTimeMillis(),
+                    latitude = lat,
+                    longitude = lng,
+                    eventType = "TEST_EXIT",
+                    note = "Inserted via debug UI"
+                )
+                exitEventDao.insert(event)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
