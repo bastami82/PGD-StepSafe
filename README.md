@@ -26,6 +26,8 @@ This repository contains a Kotlin/Jetpack Compose implementation using modern An
 - [Screenshots — App flow](#screenshots--app-flow)
 - [Diagrams](#diagrams)
 - [License & contact](#license--contact)
+- [How to Install StepSafe APK](#how-to-install-stepsafe-apk)
+- [Minimum Supported OS](#minimum-supported-os)
 
 ---
 
@@ -166,83 +168,83 @@ Below is an ordered sequence of screenshots from `project-screenshots/` that fol
 
 1. App installed on home screen
 
-   ![App installed on home screen](./project-screenshots/StepSafe-app-icon-installed-homescreen.png)
+   <img src="./project-screenshots/StepSafe-app-icon-installed-homescreen.png" style="max-width:400px;width:100%;height:auto;" alt="App installed on home screen" />
 
 2. First-run: notification permission prompt
 
-   ![Request - show notifications](./project-screenshots/StepSafe-first-install-info-requesting-for-showing-app-notification.png)
+   <img src="./project-screenshots/StepSafe-first-install-info-requesting-for-showing-app-notification.png" style="max-width:400px;width:100%;height:auto;" alt="Request - show notifications" />
 
 3. First-run: device location permission prompt
 
-   ![Request - device location](./project-screenshots/StepSafe-first-install-info-requesting-for-device-location.png)
+   <img src="./project-screenshots/StepSafe-first-install-info-requesting-for-device-location.png" style="max-width:400px;width:100%;height:auto;" alt="Request - device location" />
 
 4. First-run: background location information / request
 
-   ![Background location info/request](./project-screenshots/StepSafe-first-install-info-background-location-permission.png)
+   <img src="./project-screenshots/StepSafe-first-install-info-background-location-permission.png" style="max-width:400px;width:100%;height:auto;" alt="Background location info/request" />
 
 5. First-run: SMS permission prompt
 
-   ![Request - SMS permission](./project-screenshots/StepSafe-first-install-info-requesting-for-SMS-permission.png)
+   <img src="./project-screenshots/StepSafe-first-install-info-requesting-for-SMS-permission.png" style="max-width:400px;width:100%;height:auto;" alt="Request - SMS permission" />
 
 6. First-run: explanation about sending SMS in background
 
-   ![SMS background requirement explanation](./project-screenshots/StepSafe-first-install-info-for-requiremnt-sending-SMS-in-background.png)
+   <img src="./project-screenshots/StepSafe-first-install-info-for-requiremnt-sending-SMS-in-background.png" style="max-width:400px;width:100%;height:auto;" alt="SMS background requirement explanation" />
 
 7. Main dashboard (caregiver/home screen)
 
-   ![Main dashboard - caregiver home screen](./project-screenshots/StepSafe-mainscreen-care-giver-home-screen.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-care-giver-home-screen.png" style="max-width:400px;width:100%;height:auto;" alt="Main dashboard - caregiver home screen" />
 
 8. Setting home location (map / select location)
 
-   ![Setting home location](./project-screenshots/StepSafe-mainscreen-setting-home-screen.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-setting-home-screen.png" style="max-width:400px;width:100%;height:auto;" alt="Setting home location" />
 
 9. Increase / adjust geofencing radius
 
-   ![Increase geofencing radius](./project-screenshots/StepSafe-mainscreen-increase-geofencing-radius-home-screen.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-increase-geofencing-radius-home-screen.png" style="max-width:400px;width:100%;height:auto;" alt="Increase geofencing radius" />
 
 10. Saving geofence (in-progress)
 
-   ![Saving geofence](./project-screenshots/StepSafe-mainscreen-saving-geoFencing.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-saving-geoFencing.png" style="max-width:400px;width:100%;height:auto;" alt="Saving geofence" />
 
 11. Geofence saved (confirmation)
 
-   ![Geofence saved](./project-screenshots/StepSafe-mainscreen-saved-geoFencing.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-saved-geoFencing.png" style="max-width:400px;width:100%;height:auto;" alt="Geofence saved" />
 
 12. Start monitoring (foreground service)
 
-   ![Start monitoring](./project-screenshots/StepSafe-mainscreen-start-monitoring-home-screen.png)
+   <img src="./project-screenshots/StepSafe-mainscreen-start-monitoring-home-screen.png" style="max-width:400px;width:100%;height:auto;" alt="Start monitoring" />
 
 13. Foreground notification shown when app sent to background
 
-   ![Foreground notification when app backgrounded](./project-screenshots/StepSafe-stepsafe-notification-when-main-app-sent-to-background.png)
+   <img src="./project-screenshots/StepSafe-stepsafe-notification-when-main-app-sent-to-background.png" style="max-width:400px;width:100%;height:auto;" alt="Foreground notification when app backgrounded" />
 
 14. Background service continues running after app closed
 
-   ![Background service running after app closed](./project-screenshots/StepSafe-stepsafe-background-service-runs-even-after-app-closed1.png)
+   <img src="./project-screenshots/StepSafe-stepsafe-background-service-runs-even-after-app-closed1.png" style="max-width:400px;width:100%;height:auto;" alt="Background service running after app closed" />
 
 15. User steps outside the geofence — alert screen shown on device
 
-   ![Alert screen on leaving geofence](./project-screenshots/StepSafe-navigate-home-alert-screen-when-step-outside-geofencing.png)
+   <img src="./project-screenshots/StepSafe-navigate-home-alert-screen-when-step-outside-geofencing.png" style="max-width:400px;width:100%;height:auto;" alt="Alert screen on leaving geofence" />
 
 16. Caregiver receives SMS message
 
-   ![Caregiver message received](./project-screenshots/StepSafe-messge-recieved-by-caregiver.png)
+   <img src="./project-screenshots/StepSafe-messge-recieved-by-caregiver.png" style="max-width:400px;width:100%;height:auto;" alt="Caregiver message received" />
 
 17. App notification launches Google Navigation
 
-   ![App notification launching navigation](./project-screenshots/StepSafe-Screenshot_app_notification-GoogleNavigation.png)
+   <img src="./project-screenshots/StepSafe-Screenshot_app_notification-GoogleNavigation.png" style="max-width:400px;width:100%;height:auto;" alt="App notification launching navigation" />
 
 18. Google Maps — navigation started (walk mode)
 
-   ![Google Maps navigation started](./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home.png)
+   <img src="./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home.png" style="max-width:400px;width:100%;height:auto;" alt="Google Maps navigation started" />
 
 19. Google Maps — zoomed-in navigation view
 
-   ![Google Maps navigation zoomed](./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home-zoom-in.png)
+   <img src="./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home-zoom-in.png" style="max-width:400px;width:100%;height:auto;" alt="Google Maps navigation zoomed" />
 
 20. After pressing "Navigate Home" - navigation launches (alternative view)
 
-   ![After pressing Navigate Home launches Google Navigation](./project-screenshots/StepSafe--after-pressing-navigate-home-button-lunches-GoogleNavigation-walk.png)
+   <img src="./project-screenshots/StepSafe--after-pressing-navigate-home-button-lunches-GoogleNavigation-walk.png" style="max-width:400px;width:100%;height:auto;" alt="After pressing Navigate Home launches Google Navigation" />
 
 ---
 
