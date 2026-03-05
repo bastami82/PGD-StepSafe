@@ -142,33 +142,21 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 Notes:
-- For DB exports and Appendix evidence capture I included a small script under `scripts/collect_appendix_b.sh` that automates logcat capture, screenshots and (when possible) pulls the app's Room DB via `run-as`.
+- For DB exports and Appendix evidence capture, I included a small script under `scripts/collect_appendix_b.sh` that automates logcat capture, screenshots and (when possible) pulls the app's Room DB via `run-as`.
 - For reliable DB pulls, install the debug APK (so `run-as` works). The script can also export `exit_event` rows to CSV if `sqlite3` is installed on your host machine.
 
 ---
 
 ## Demo videos
 
-Demo videos demonstrating StepSafe in action are included in the `projectFile/` directory. You can either open the demo HTML in your browser which embeds both videos, or play the MP4s directly with your OS video player.
+**1. StepSafe — Starting app, granting permission, setting up home, and starting monitoring**
 
-**Autoplay in browser:**
+https://github.com/user-attachments/assets/6a53c906-96ff-48e3-a53b-a89df8aaa6b9
 
-- [StepSafe — Starting app, granting permission, setting up home, and starting monitoring](projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4)
-  <br><video src="projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4" controls autoplay muted playsinline style="max-width:300px;aspect-ratio:9/19;border:1px solid #ccc;border-radius:24px;box-shadow:0 2px 8px #0002;"></video>
+**2. StepSafe — Stepping outside the geofencing area**  
+(🔊 Unmute to hear the guidance)
 
-- [StepSafe — Stepping outside geofencing area](projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4)
-  <br><video src="projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4" controls autoplay muted playsinline style="max-width:300px;aspect-ratio:9/19;border:1px solid #ccc;border-radius:24px;box-shadow:0 2px 8px #0002;"></video>
-
-**Direct download (if browser playback fails):**
-
-- [Download StepSafe — Starting app, granting permission, setting up home, and starting monitoring (MP4)](projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4)
-- [Download StepSafe — Stepping outside geofencing area (MP4)](projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4)
-
-**Open the demo page in your browser:**
-
-- [StepSafe Demo Page (demo.html)](projectFile/demo.html)
-
-If your browser cannot play the videos above, download the MP4 files directly and play them locally with your preferred video player.
+https://github.com/user-attachments/assets/0860eed4-95d4-49e7-94aa-ec120380d7c7
 
 ---
 
