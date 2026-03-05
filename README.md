@@ -151,27 +151,24 @@ Notes:
 
 Demo videos demonstrating StepSafe in action are included in the `projectFile/` directory. You can either open the demo HTML in your browser which embeds both videos, or play the MP4s directly with your OS video player.
 
-Files
+**Autoplay in browser:**
 
-- `projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4` — shows app startup, granting permission, setting up home and starting monitoring.
-- `projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4` — shows the app reacting when stepping outside the geofenced area.
+- [StepSafe — Starting app, granting permission, setting up home, and starting monitoring](projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4)
+  <br><video src="projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4" controls autoplay muted playsinline style="max-width:300px;aspect-ratio:9/19;border:1px solid #ccc;border-radius:24px;box-shadow:0 2px 8px #0002;"></video>
 
-How to play locally
+- [StepSafe — Stepping outside geofencing area](projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4)
+  <br><video src="projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4" controls autoplay muted playsinline style="max-width:300px;aspect-ratio:9/19;border:1px solid #ccc;border-radius:24px;box-shadow:0 2px 8px #0002;"></video>
 
-Open the demo page in your default browser (recommended):
+**Direct download (if browser playback fails):**
 
-```bash
-open projectFile/demo.html
-```
+- [Download StepSafe — Starting app, granting permission, setting up home, and starting monitoring (MP4)](projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4)
+- [Download StepSafe — Stepping outside geofencing area (MP4)](projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4)
 
-Or open the raw video files with your default player:
+**Open the demo page in your browser:**
 
-```bash
-open projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4
-open projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4
-```
+- [StepSafe Demo Page (demo.html)](projectFile/demo.html)
 
-Note: GitHub may not render very large MP4s inline on the website. For local playback, use the commands above.
+If your browser cannot play the videos above, download the MP4 files directly and play them locally with your preferred video player.
 
 ---
 
@@ -295,7 +292,7 @@ This project is provided for academic/educational purposes. For questions or to 
 
 ## How to Install StepSafe APK
 
-You can install the StepSafe app directly on any compatible Android device (Android 8.0/Oreo, API 26 and above; this app targets Android 13/14, API 33/36). The APK is provided for direct installation:
+You can install the StepSafe app directly on any compatible Android device (**Android 13, API 33 and above**; this app targets Android 13/14, API 33/36). The APK is provided for direct installation:
 
 **Download APK:** [StepSafe.apk](installApp/StepSafe.apk)
 
@@ -319,7 +316,7 @@ You can install the StepSafe app directly on any compatible Android device (Andr
 
 **Note:**
 - This APK is for testing and demonstration purposes. For production use, install only from trusted sources (e.g., Google Play Store).
-- If you encounter issues, ensure your device meets the minimum SDK requirement (Android 8.0/Oreo, API 26+).
+- If you encounter issues, ensure your device meets the minimum SDK requirement (**Android 13, API 33+**).
 
 ---
 
