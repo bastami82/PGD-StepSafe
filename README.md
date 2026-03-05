@@ -22,6 +22,9 @@ This repository contains a Kotlin/Jetpack Compose implementation using modern An
 - [Security, permissions & UX](#security-permissions--ux)
 - [Testing & quality assurance](#testing--quality-assurance)
 - [How to build & run (quick)](#how-to-build--run-quick)
+- [Demo videos](#demo-videos)
+- [Screenshots — App flow](#screenshots--app-flow)
+- [Diagrams](#diagrams)
 - [License & contact](#license--contact)
 
 ---
@@ -144,13 +147,182 @@ Notes:
 
 ---
 
-## Appendix: Evidence export
+## Demo videos
 
-- `scripts/collect_appendix_b.sh` — automated evidence collection for Appendix B (logcat, screenshots, DB pull + CSV export of `exit_event`).
-- I also added a debug helper UI to insert a test `ExitEvent` (use the debug build) for quick offline validation.
+Demo videos demonstrating StepSafe in action are included in the `projectFile/` directory. You can either open the demo HTML in your browser which embeds both videos, or play the MP4s directly with your OS video player.
+
+Files
+
+- `projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4` — shows app startup, granting permission, setting up home and starting monitoring.
+- `projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4` — shows the app reacting when stepping outside the geofenced area.
+
+How to play locally
+
+Open the demo page in your default browser (recommended):
+
+```bash
+open projectFile/demo.html
+```
+
+Or open the raw video files with your default player:
+
+```bash
+open projectFile/StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4
+open projectFile/StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4
+```
+
+Note: GitHub may not render very large MP4s inline on the website. For local playback, use the commands above.
+
+---
+
+## Screenshots — App flow
+
+Below is an ordered sequence of screenshots from `project-screenshots/` that follow the app's runtime flow (install/permission → configure home → start monitoring → background monitoring → exit alert → caregiver notification → navigation):
+
+1. App installed on home screen
+
+   ![App installed on home screen](./project-screenshots/StepSafe-app-icon-installed-homescreen.png)
+
+2. First-run: notification permission prompt
+
+   ![Request - show notifications](./project-screenshots/StepSafe-first-install-info-requesting-for-showing-app-notification.png)
+
+3. First-run: device location permission prompt
+
+   ![Request - device location](./project-screenshots/StepSafe-first-install-info-requesting-for-device-location.png)
+
+4. First-run: background location information / request
+
+   ![Background location info/request](./project-screenshots/StepSafe-first-install-info-background-location-permission.png)
+
+5. First-run: SMS permission prompt
+
+   ![Request - SMS permission](./project-screenshots/StepSafe-first-install-info-requesting-for-SMS-permission.png)
+
+6. First-run: explanation about sending SMS in background
+
+   ![SMS background requirement explanation](./project-screenshots/StepSafe-first-install-info-for-requiremnt-sending-SMS-in-background.png)
+
+7. Main dashboard (caregiver/home screen)
+
+   ![Main dashboard - caregiver home screen](./project-screenshots/StepSafe-mainscreen-care-giver-home-screen.png)
+
+8. Setting home location (map / select location)
+
+   ![Setting home location](./project-screenshots/StepSafe-mainscreen-setting-home-screen.png)
+
+9. Increase / adjust geofencing radius
+
+   ![Increase geofencing radius](./project-screenshots/StepSafe-mainscreen-increase-geofencing-radius-home-screen.png)
+
+10. Saving geofence (in-progress)
+
+   ![Saving geofence](./project-screenshots/StepSafe-mainscreen-saving-geoFencing.png)
+
+11. Geofence saved (confirmation)
+
+   ![Geofence saved](./project-screenshots/StepSafe-mainscreen-saved-geoFencing.png)
+
+12. Start monitoring (foreground service)
+
+   ![Start monitoring](./project-screenshots/StepSafe-mainscreen-start-monitoring-home-screen.png)
+
+13. Foreground notification shown when app sent to background
+
+   ![Foreground notification when app backgrounded](./project-screenshots/StepSafe-stepsafe-notification-when-main-app-sent-to-background.png)
+
+14. Background service continues running after app closed
+
+   ![Background service running after app closed](./project-screenshots/StepSafe-stepsafe-background-service-runs-even-after-app-closed1.png)
+
+15. User steps outside the geofence — alert screen shown on device
+
+   ![Alert screen on leaving geofence](./project-screenshots/StepSafe-navigate-home-alert-screen-when-step-outside-geofencing.png)
+
+16. Caregiver receives SMS message
+
+   ![Caregiver message received](./project-screenshots/StepSafe-messge-recieved-by-caregiver.png)
+
+17. App notification launches Google Navigation
+
+   ![App notification launching navigation](./project-screenshots/StepSafe-Screenshot_app_notification-GoogleNavigation.png)
+
+18. Google Maps — navigation started (walk mode)
+
+   ![Google Maps navigation started](./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home.png)
+
+19. Google Maps — zoomed-in navigation view
+
+   ![Google Maps navigation zoomed](./project-screenshots/StepSafe-GoogleNavigation-started-in-walk-mode-with-navigation-to-home-zoom-in.png)
+
+20. After pressing "Navigate Home" - navigation launches (alternative view)
+
+   ![After pressing Navigate Home launches Google Navigation](./project-screenshots/StepSafe--after-pressing-navigate-home-button-lunches-GoogleNavigation-walk.png)
+
+---
+
+## Diagrams
+
+Architecture and flow diagrams are included in `projectFile/`.
+
+- System Architecture — Component Diagram
+
+  ![System Architecture — Component Diagram](./projectFile/system-architecture-component-diagram.png)
+
+---
+
+- Caregiver Configuration Flow — Sequence Diagram
+
+  ![Caregiver Configuration Flow Sequence Diagram](./projectFile/caregiver-configuration-flow-sequence-diagram.png)
+
+---
+
+- Emergency Geofence Trigger — Flowchart
+
+  ![Emergency Geofence Trigger Flowchart](./projectFile/emergency-geofence-trigger-flowchart.png)
+
+---
+
+- Reboot Persistence Logic — Flowchart
+
+  ![Reboot Persistence Logic Flowchart](./projectFile/reboot-persistence-logic-flowchart.png)
 
 ---
 
 ## License & contact
 
 This project is provided for academic/educational purposes. For questions or to request additional exports or build assistance, please reply in this issue or contact the repository owner.
+
+## How to Install StepSafe APK
+
+You can install the StepSafe app directly on any compatible Android device (Android 8.0/Oreo, API 26 and above; this app targets Android 13/14, API 33/36). The APK is provided for direct installation:
+
+**Download APK:** [StepSafe.apk](installApp/StepSafe.apk)
+
+### Installation Steps
+
+1. **Download the APK**
+   - Download the APK file from the link above to your Android device (or transfer it via USB, email, or cloud storage).
+
+2. **Enable Installation from Unknown Sources**
+   - Go to your device's **Settings** > **Security** (or **Apps & notifications** > **Special app access** > **Install unknown apps**).
+   - Find your browser or file manager app and enable **Allow from this source**.
+   - On some devices, you may be prompted to allow installation when you open the APK file.
+
+3. **Install the APK**
+   - Open your file manager and locate the downloaded `StepSafe.apk` file.
+   - Tap the file and follow the prompts to install.
+   - If prompted, confirm installation and accept any warnings about unknown sources.
+
+4. **Launch the App**
+   - Once installed, you can find StepSafe in your app drawer. Open it and grant any requested permissions (location, SMS, notifications) for full functionality.
+
+**Note:**
+- This APK is for testing and demonstration purposes. For production use, install only from trusted sources (e.g., Google Play Store).
+- If you encounter issues, ensure your device meets the minimum SDK requirement (Android 8.0/Oreo, API 26+).
+
+---
+
+## Minimum Supported OS
+
+StepSafe requires **Android 13 (API level 33) or higher**. Devices running older versions of Android are not supported. This is enforced by the `minSdk = 33` setting in the build configuration.

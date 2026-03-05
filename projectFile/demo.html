@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StepSafe Demo Videos</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 24px; background: #f7f7f8; color: #111; }
+    h1 { font-size: 20px; }
+    .video-wrap { margin-bottom: 20px; background: white; padding: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    /* Keep legacy full-width video fallback for non-phone layout */
+    video { width: 100%; max-width: 920px; height: auto; display: block; background: black; }
+
+    /* Phone frame + Pixel-like portrait aspect ratio (9:20) */
+    /* width is device width (e.g. 360px), aspect-ratio sets height for a portrait phone */
+    .phone { width: 320px; max-width: 92%; margin: 12px auto; aspect-ratio: 9 / 20; background: #000; border-radius: 40px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; }
+    @media (min-width: 1000px) { .phone { width: 380px; } }
+    .phone .speaker { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 60px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 6px; }
+    .phone .camera { position: absolute; top: 10px; right: 22px; width: 7px; height: 7px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+    .screen { width: 100%; height: 100%; border-radius: 28px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+    .video-phone { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+    p { margin: 8px 0; }
+    .note { color: #555; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>StepSafe — Demo videos</h1>
+  <p class="note">If videos do not play in the browser, open the MP4 files directly with your OS player. Files are located in the same folder as this page.</p>
+
+  <div class="video-wrap">
+    <h2>Starting app, granting permission, setting home & starting monitoring</h2>
+    <div class="phone" role="group" aria-label="Demo video in phone frame">
+      <div class="speaker" aria-hidden="true"></div>
+      <div class="camera" aria-hidden="true"></div>
+      <div class="screen">
+        <video class="video-phone" controls preload="metadata">
+          <source src="./StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4" type="video/mp4">
+          Your browser does not support embedded videos. Download and play the MP4 file above.
+        </video>
+      </div>
+    </div>
+    <p class="note">Filename: StepSafe-in-action-starting-app-granting-permission-setting-up-home-and-start-monitoring.mp4</p>
+  </div>
+
+  <div class="video-wrap">
+    <h2>Stepping outside the geofencing area</h2>
+    <div class="phone" role="group" aria-label="Demo video in phone frame">
+      <div class="speaker" aria-hidden="true"></div>
+      <div class="camera" aria-hidden="true"></div>
+      <div class="screen">
+        <video class="video-phone" controls preload="metadata">
+          <source src="./StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4" type="video/mp4">
+          Your browser does not support embedded videos. Download and play the MP4 file above.
+        </video>
+      </div>
+    </div>
+    <p class="note">Filename: StepSafe-in-action-when-stepping-outside-of-geofencing-area.mp4</p>
+  </div>
+
+  <p class="note">Tip: If the videos fail to load, ensure the MP4 files exist in this folder and are readable by your user. You can open them directly using the macOS `open` command.</p>
+</body>
+</html>

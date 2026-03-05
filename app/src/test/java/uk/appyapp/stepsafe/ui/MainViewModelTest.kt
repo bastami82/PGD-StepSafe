@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.*
 import org.junit.*
 import uk.appyapp.stepsafe.data.local.dao.CaregiverContactDao
 import uk.appyapp.stepsafe.data.local.dao.HomeLocationDao
+import uk.appyapp.stepsafe.data.local.dao.ExitEventDao
 import uk.appyapp.stepsafe.data.repository.SettingsRepository
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -24,6 +25,7 @@ class MainViewModelTest {
     private val application = mockk<Application>(relaxed = true)
     private val homeLocationDao = mockk<HomeLocationDao>(relaxed = true)
     private val caregiverContactDao = mockk<CaregiverContactDao>(relaxed = true)
+    private val exitEventDao = mockk<ExitEventDao>(relaxed = true)
     private val settingsRepository = mockk<SettingsRepository>(relaxed = true)
 
     @Before
@@ -39,6 +41,7 @@ class MainViewModelTest {
             application,
             homeLocationDao,
             caregiverContactDao,
+            exitEventDao,
             settingsRepository
         )
     }
@@ -57,7 +60,8 @@ class MainViewModelTest {
         
         // When
         viewModel.updateHomeLocation(lat, lng, address)
-        
+        advanceUntilIdle()
+
         // Then
         coVerify { homeLocationDao.insertHomeLocation(any()) }
     }
@@ -69,7 +73,8 @@ class MainViewModelTest {
         
         // When
         viewModel.updateSafeZoneRadius(radius)
-        
+        advanceUntilIdle()
+
         // Then
         coVerify { settingsRepository.updateSafeZoneRadius(radius) }
     }
@@ -82,7 +87,8 @@ class MainViewModelTest {
         
         // When
         viewModel.updateCaregiverContact(name, phone)
-        
+        advanceUntilIdle()
+
         // Then
         coVerify { caregiverContactDao.insertCaregiverContact(any()) }
     }

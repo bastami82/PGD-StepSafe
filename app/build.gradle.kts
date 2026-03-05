@@ -12,6 +12,30 @@ android {
     namespace = "uk.appyapp.stepsafe"
     compileSdk = 36
 
+    // Load local properties (API keys, debug keystore credentials) so sensitive values live outside VCS
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
+    // Maps API key (used below in defaultConfig)
+    val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
+
+    // Debug keystore properties (must be provided in local.properties)
+    val debugKeystorePath = requireNotNull(localProperties.getProperty("DEBUG_KEYSTORE_PATH")) {
+        "DEBUG_KEYSTORE_PATH must be set in local.properties and point to the debug keystore (e.g. keystores/debug.jks)"
+    }
+    val debugKeystoreStorePassword = requireNotNull(localProperties.getProperty("DEBUG_KEYSTORE_STORE_PASSWORD")) {
+        "DEBUG_KEYSTORE_STORE_PASSWORD must be set in local.properties"
+    }
+    val debugKeystoreKeyAlias = requireNotNull(localProperties.getProperty("DEBUG_KEYSTORE_KEY_ALIAS")) {
+        "DEBUG_KEYSTORE_KEY_ALIAS must be set in local.properties"
+    }
+    val debugKeystoreKeyPassword = requireNotNull(localProperties.getProperty("DEBUG_KEYSTORE_KEY_PASSWORD")) {
+        "DEBUG_KEYSTORE_KEY_PASSWORD must be set in local.properties"
+    }
+
     defaultConfig {
         applicationId = "uk.appyapp.stepsafe"
         minSdk = 33
@@ -21,22 +45,42 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Read API key from local.properties (not committed to VCS)
-        val localProperties = Properties()
-        val localPropertiesFile = rootProject.file("local.properties")
-        if (localPropertiesFile.exists()) {
-            localProperties.load(localPropertiesFile.inputStream())
-        }
-        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
-
+        // Maps API key read from top-level localProperties (see above)
         manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
         resValue("string", "google_maps_key", mapsApiKey)
     }
 
+    signingConfigs {
+        create("debugStore") {
+            storeFile = rootProject.file(debugKeystorePath)
+            storePassword = debugKeystoreStorePassword
+            keyAlias = debugKeystoreKeyAlias
+            keyPassword = debugKeystoreKeyPassword
+        }
+    }
     buildTypes {
+        // TEMPORARY: For testing only — this `release` build is configured to use the
+        // repository/debug signing key and enables code shrinking/obfuscation. DO NOT publish
+        // APKs signed with this key to Google Play. Before publishing, restore the release
+        // signing configuration to use the real private release key and verify signing settings.
         release {
-            isMinifyEnabled = false
+            // Enable R8/ProGuard optimization and resource shrinking for a realistic 'release' build
+            isMinifyEnabled = true
+            isShrinkResources = true
+            // Use the optimized default proguard file and the project's proguard rules
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Sign the temporary release with the debugStore keystore (provided via local.properties)
+            signingConfig = signingConfigs.getByName("debugStore")
+        }
+        // Use a repository-stored debug keystore for consistent debug signing across devs
+        debug {
+            // Path is relative to the module directory; keystores/debug.jks placed at repo root by default
+            signingConfig = signingConfigs.findByName("debugStore") ?: signingConfigs.create("debugStore") {
+                storeFile = rootProject.file(debugKeystorePath)
+                storePassword = debugKeystoreStorePassword
+                keyAlias = debugKeystoreKeyAlias
+                keyPassword = debugKeystoreKeyPassword
+            }
         }
     }
     compileOptions {
@@ -111,7 +155,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    androidTestImplementation(libs.androidx.uiautomator)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
